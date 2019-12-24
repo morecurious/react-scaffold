@@ -12,7 +12,11 @@ const plugins = [
   new WebpackBar(), // webpack打包进度条
   new FriendlyErrorsWebpackPlugin(), // 能够更好在终端看到webapck运行的警告和错误
   new HtmlWebpackPlugin({ template: 'src/index.html' }), // 向dist文件中自动添加模版html
-  new CleanWebpackPlugin() // 打包后先清除dist文件，先于HtmlWebpackPlugin运行
+  new CleanWebpackPlugin({
+    root: path.resolve(__dirname, '../dist'),
+    verbose: true,
+    dry: false
+  }), // 打包后先清除dist文件，先于HtmlWebpackPlugin运行// 打包后先清除dist文件，先于HtmlWebpackPlugin运行
 ]
 
 const files = fs.readdirSync(path.resolve(__dirname, '../dll'))

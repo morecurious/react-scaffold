@@ -14,27 +14,29 @@ const devConfig = {
   devServer: {
     contentBase: path.join(__dirname, '../dist')
   },
-  rules: [
-    {
-      test: /\.less$/,
-      exclude: /node_modules/,
-      use: [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 2
-          }
-        },
-        'less-loader',
-        'postcss-loader'
-      ]
-    },
-    {
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader', 'postcss-loader']
-    }
-  ],
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        exclude: /node_modules/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2
+            }
+          },
+          'less-loader',
+          'postcss-loader'
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader']
+      }
+    ]
+  },
   optimization: { usedExports: true }, // 开发环境时使用  tree shaking
   plugins: [
     // 插件
