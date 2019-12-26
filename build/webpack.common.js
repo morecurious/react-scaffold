@@ -14,8 +14,8 @@ const plugins = [
   new HtmlWebpackPlugin({ template: 'src/index.html' }), // 向dist文件中自动添加模版html
   new CleanWebpackPlugin({
     root: path.resolve(__dirname, '../dist'),
-    verbose: true,
-    dry: false
+    verbose: true, // 将log写到 console.
+    dry: false // 不要删除任何东西，主要用于测试.
   }), // 打包后先清除dist文件，先于HtmlWebpackPlugin运行// 打包后先清除dist文件，先于HtmlWebpackPlugin运行
 ]
 

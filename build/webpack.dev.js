@@ -24,7 +24,7 @@ const devConfig = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 2
+              importLoaders: 2 //用于配置「css-loader 作用于 @import 的资源之前」有多少个 loader。
             }
           },
           'less-loader',
