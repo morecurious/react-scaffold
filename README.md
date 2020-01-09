@@ -1,6 +1,9 @@
 ## react-scaffold
 >  基于react + react-router +dva + es6 + less + antd的脚手架
 
+#HappyPack
+此demo测试下来没有提高编译速度
+
 ##TODO
 creat-react-app或者umi
 代码分割

@@ -7,6 +7,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+const HappyPack = require('happypack');
+const os = require('os');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 const plugins = [
   new WebpackBar(), // webpack打包进度条
@@ -17,6 +20,19 @@ const plugins = [
     verbose: true, // 将log写到 console.
     dry: false // 不要删除任何东西，主要用于测试.
   }), // 打包后先清除dist文件，先于HtmlWebpackPlugin运行// 打包后先清除dist文件，先于HtmlWebpackPlugin运行
+  // happypack
+  new HappyPack({
+      //用id来标识 happypack处理那里类文件
+      id: 'happyBabel',
+      //如何处理  用法和loader 的配置一样
+      loaders: [{
+          loader: 'babel-loader?cacheDirectory=true',
+      }],
+      //共享进程池threadPool: HappyThreadPool 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
+      threadPool: happyThreadPool,
+      //允许 HappyPack 输出日志
+      verbose: true,
+  }),
 ]
 
 const files = fs.readdirSync(path.resolve(__dirname, '../dll'))
@@ -54,7 +70,7 @@ const commonConfig = {
         exclude: /node_modules/, // 排除node_modules中的代码
         use: [
           {
-            loader: 'babel-loader' // 只是babel和webpack之间的桥梁，并不会将代码转译
+            loader: "happypack/loader?id=happyBabel" // 只是babel和webpack之间的桥梁，并不会将代码转译
           }
         ]
       },
