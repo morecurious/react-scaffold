@@ -35,9 +35,6 @@ const prodConfig = {
       }
     ]
   },
-  optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({})]
-  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -54,6 +51,7 @@ const prodConfig = {
     new webpack.HashedModuleIdsPlugin() //根据模块的相对路径生成一个四位数的hash,实现持久化缓存
   ],
   optimization: {
+    minimizer: [new OptimizeCSSAssetsPlugin({})],
     splitChunks: {
       chunks: 'all', // 只对异步引入代码起作用，设置all时并同时配置vendors才对两者起作用
       minSize: 30000, // 引入的库大于30kb时才会做代码分割

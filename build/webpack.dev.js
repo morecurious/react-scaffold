@@ -1,5 +1,5 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require('path')
+const webpack = require('webpack')
 const merge = require('webpack-merge')
 const commonConfig = require('./webpack.common.js')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin')
@@ -37,13 +37,21 @@ const devConfig = {
       }
     ]
   },
-  optimization: { usedExports: true }, // 开发环境时使用  tree shaking
+  optimization: {
+    // 开发环境时使用  tree shaking
+    usedExports: true,
+    moduleIds: 'hashed', // 混淆文件路径名
+    runtimeChunk: {name: 'manifest'}, // 提取runtime代码命名为manifest
+    namedModules: true, // 让模块id根据路径设置，避免每增加新模块，所有id都改变，造成缓存失效的情况
+    namedChunks: true, // 避免增加entrypoint，其他文件都缓存失效
+  },
   plugins: [
     // 插件
+    new webpack.HashedModuleIdsPlugin(), // 与namedModules: true作用一样
     new webpack.NamedModulesPlugin(), //用于启动HMR时可以显示模块的相对路径
     new webpack.HotModuleReplacementPlugin(), // 开启模块热更新，热加载和模块热更新不同，热加载是整个页面刷新
     new webpack.optimize.ModuleConcatenationPlugin(), // 运行 tree shaking 需要 ModuleConcatenationPlugin。通过 mode: "production" 可以添加此插件。如果你是开发环境就需要手动添加
-    new OpenBrowserPlugin({ url: 'http://localhost:8081' }) // 自动打开浏览器
+    new OpenBrowserPlugin({url: 'http://localhost:8081'}) // 自动打开浏览器
   ],
   output: {
     filename: '[name].js',
